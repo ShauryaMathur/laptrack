@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import { plotGraphsForSpecs, getLaptops, updateInventoryData, getLaptopsWithSorting } from '../api';
+import { plotGraphsForSpecs, updateInventoryData, getLaptopsWithSorting } from '../api';
 import PriceStatsTable from '../components/PriceStatsTable';
 
 const AdminDashboard = () => {

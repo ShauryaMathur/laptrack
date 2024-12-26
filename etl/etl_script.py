@@ -45,7 +45,8 @@ CREATE TABLE IF NOT EXISTS laptop (
     no_of_reviews INTEGER,
     laptop_dimensions VARCHAR(255),
     laptop_weight_pounds DOUBLE PRECISION,
-    image_src VARCHAR(1000)
+    image_src VARCHAR(1000),
+    title VARCHAR(1000),
 );
 """
 
@@ -71,7 +72,8 @@ schema = StructType([
     StructField("no_of_reviews", IntegerType(), True),
     StructField("laptop_dimensions", StringType(), True),
     StructField("laptop_weight_pounds", FloatType(), True),
-    StructField("image_src", StringType(), True)
+    StructField("image_src", StringType(), True),
+    StructField("title", StringType(), True),
 ])
 
 def initPostgreSQL():
@@ -148,7 +150,8 @@ def load_to_postgres(conn,cur,df):
         no_of_reviews INTEGER,
         laptop_dimensions VARCHAR(255),
         laptop_weight_pounds DOUBLE PRECISION,
-        image_src VARCHAR(1000)
+        image_src VARCHAR(1000),
+        title VARCHAR(1000)
     );
     """
     cur.execute(create_table_sql)

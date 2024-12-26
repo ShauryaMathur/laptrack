@@ -5,6 +5,7 @@ class Laptop(db.Model):
     __tablename__ = 'laptop'
     id = db.Column(db.Integer, primary_key=True)
     brand = db.Column(db.String(255))
+    title = db.Column(db.String(255))
     laptop_model_name = db.Column(db.String(255))
     laptop_model_number = db.Column(db.String(255))
     processor_brand = db.Column(db.String(255))
@@ -30,6 +31,7 @@ class Laptop(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'title':self.title,
             'brand': self.brand,
             'laptop_model_name': self.laptop_model_name,
             'laptop_model_number': self.laptop_model_number,

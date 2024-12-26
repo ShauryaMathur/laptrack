@@ -117,9 +117,9 @@ class AmazonCleaner:
                     normalized_processor = f"{base_model} {variant}"  # Combine model and variant
                 else:
                     normalized_processor = base_model  # Just the model if no variant
-                return normalized_processor
+                return (normalized_processor,True)
             else:
-                return processor  # If no match, keep as is
+                return (processor,False)
 
         # Function to normalize processor names
         def normalize_processor(model):
@@ -127,18 +127,9 @@ class AmazonCleaner:
             if pd.isna(model) or model == 'Unknown':
                 return None
 
-            # Intel Core series
-            intel_core = re.search(r'(Intel )?(Core i[3579])', model, re.IGNORECASE)
-            if intel_core:
-                # Normalize the 'Core iX' to 'Core iX' with lowercase 'i' for consistency
-                core_model = intel_core.group(2).lower().capitalize()  # Converts 'Core I7' to 'Core i7'
-                return core_model
-            else:
-                return model  # If no match, return the original model
-
             # First, check if it's an Apple processor
-            apple_normalized = normalize_apple_processors(model)
-            if apple_normalized:
+            apple_normalized,matched = normalize_apple_processors(model)
+            if matched:
                 return apple_normalized
 
             # AMD Ryzen series
@@ -150,6 +141,17 @@ class AmazonCleaner:
             amd_other = re.search(r'AMD (Athlon|A Series)', model, re.IGNORECASE)
             if amd_other:
                 return 'AMD ' + amd_other.group(1)
+            
+            # Intel Core series
+            intel_core = re.search(r'(Intel )?(Core i[3579])', model, re.IGNORECASE)
+            if intel_core:
+                # Normalize the 'Core iX' to 'Core iX' with lowercase 'i' for consistency
+                core_model = intel_core.group(2).lower().capitalize()  # Converts 'Core I7' to 'Core i7'
+                return core_model
+            else:
+                return model  # If no match, return the original model
+
+            
 
             # # Celeron, Pentium, and Xeon series
             # if 'Celeron' in model:
@@ -498,7 +500,7 @@ class AmazonCleaner:
         df['Source'] = 'Amazon'
 
         # Renaming columns to ensure uniformity
-        renaming_dict = {'Brand': 'Brand', 
+        renaming_dict = {'Brand': 'Brand', 'Title':'Title',
                         'Laptop_Model_Name': 'Laptop_Model_Name', 
                         'Laptop_Model_Number': 'Laptop_Model_Number', 
                         'processor_and_memory_features.processor_brand': 'Processor_Brand', 
@@ -579,7 +581,7 @@ class AmazonCleaner:
        'Extracted_Rating', 'Battery_Life(Hours_Upto)', 'Price', 'Stock',
        'Time_Of_Extraction', 'URL', 'Source',
        'Storage_Capacity(GB)', 'Display_Size(Inches)', 'RAM(GB)',
-       'reviews_count', 'Formatted_Dimensions', 'Laptop_Weight(Pounds)','image_src']
+       'reviews_count', 'Formatted_Dimensions', 'Laptop_Weight(Pounds)','image_src','Title']
         alignedDF = df2[finalColumns]
         alignRenaming = {
         'reviews_count':'No_Of_Reviews',

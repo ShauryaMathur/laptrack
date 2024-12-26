@@ -48,7 +48,8 @@ class BestBuyCleaner:
         df_raw['Battery_Type'] = df_raw[batteryTypecolumns].bfill(axis=1).iloc[:,0]
 
         # Renaming columns to ensure uniformity
-        renaming_dict = {'general.brand': 'Brand', 
+        renaming_dict = {
+                        'general.brand': 'Brand', 
                         'general.product_name': 'Laptop_Model_Name', 
                         'general.model_number': 'Laptop_Model_Number', 
                         'processor.processor_brand': 'Processor_Brand', 
@@ -71,7 +72,8 @@ class BestBuyCleaner:
                         'timestamp': 'Time_Of_Extraction', 
                         'url': 'URL', 
                         'Source': 'Source',
-                        'image_src':'image_src'}
+                        'image_src':'image_src',
+                        'product_title':'Title',}
 
         df_renamed = df_raw.rename(columns=renaming_dict)
         selectedColumns = list(renaming_dict.values())
@@ -141,7 +143,7 @@ class BestBuyCleaner:
         df = df.copy()
         df['Battery_Life(Hours_Upto)'] = df['Battery_Backup'].apply(extract_battery_life)
 
-        finalColumns = ['Brand', 'Laptop_Model_Name', 'Laptop_Model_Number', 'Processor_Brand',
+        finalColumns = ['Title','Brand', 'Laptop_Model_Name', 'Laptop_Model_Number', 'Processor_Brand',
        'Processor_Model', 'Storage_Type', 
        'Operating_System', 'Display_Resolution',
        'Extracted_Rating', 'Battery_Life(Hours_Upto)', 'No_Of_Reviews', 'Price', 'Stock',

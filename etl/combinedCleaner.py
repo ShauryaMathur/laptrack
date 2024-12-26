@@ -152,7 +152,8 @@ class CombinedCleaner:
                         'Time_Of_Extraction':'time_of_extraction', 
                         'URL':'url', 
                         'Source':'source',
-                        'image_src':'image_src'
+                        'image_src':'image_src',
+                        'Title':'title',
                         }
         df_renamed = df.rename(columns=renaming_dict)
         # Export DataFrame to CSV

@@ -63,7 +63,10 @@ class FlipkartCleaner:
                         'price': 'Price', 
                         'in_stock': 'Stock', 
                         'timestamp': 'Time_Of_Extraction', 
-                        'url': 'URL', 'Source': 'Source','image_src':'image_src'}
+                        'url': 'URL',
+                        'Source': 'Source',
+                        'image_src':'image_src',
+                        'product_title':'Title'}
         df_renamed = df_raw.rename(columns=renaming_dict)
 
         selectedColumns = list(renaming_dict.values())
@@ -217,7 +220,7 @@ class FlipkartCleaner:
         df['Display_Size(Inches)'] = df['Display_Size'].apply(extract_inches)
         df.head()
 
-        finalColumns = ['Brand', 'Laptop_Model_Name', 'Laptop_Model_Number', 'Processor_Brand',
+        finalColumns = ['Title','Brand', 'Laptop_Model_Name', 'Laptop_Model_Number', 'Processor_Brand',
        'Processor_Model', 'Storage_Type', 'Storage_Capacity(GB)',
        'Operating_System','Display_Size(Inches)', 'Display_Resolution',
        'Extracted_Rating', 'Laptop_Dimensions', 'Stock',
